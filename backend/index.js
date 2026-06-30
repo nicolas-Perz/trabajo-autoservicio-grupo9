@@ -1,9 +1,22 @@
 import express from "express"
 import connection from "./src/api/database/db.js";
+<<<<<<< HEAD
+import environments from "./src/api/config/environments.js";
+import cors from "cors";
+=======
 import cors from "cors"
+>>>>>>> 839cbf3092a120c457144b050097a3c749331deb
 
-const app = express()
-const PORT = 3000
+const PORT = environments.port;
+const app = express();
+
+app.use(cors());
+
+app.use((req, res, next) => {
+    let fecha = new Date();
+    console.log(`[${fecha.toLocaleDateString()} | ${fecha.toLocaleTimeString()}] ${req.method} ${req.url}`)
+    next();
+});
 
 // Middlewares
 app.use(express.json()); 
@@ -25,7 +38,7 @@ app.get("/api/libros", async (req,res) => {
     }catch(e){
         console.error(e)
     }
-})
+});
 
 app.get("/api/libros/activos", async (req,res) => {
     try{
@@ -35,7 +48,7 @@ app.get("/api/libros/activos", async (req,res) => {
     }catch(e){
         console.error(e)
     }
-})
+});
 
 app.get("/api/libros/:id", async (req, res) => {
     const id = req.params.id;
