@@ -36,6 +36,34 @@ app.get("/api/libros/:id", async (req, res) => {
     });
 });
 
+// Endpoint para crear un nuevo libro.
+app.post("/api/libros", async (req, res) => {
+    let { titulo, genero, imagen, precio } = req.body;
+
+    if (!nombre || !precio) {
+        return res.status(400).json({
+            mensaje: "Nombre y precio faltantes."
+        })
+    }
+
+    try {
+        const sqlInsert = "INSERT INTO libros (titulo, genero, imagen, precio) VALUES (?, ?, ?, ?)";
+    
+        const [resultado] = await connection.execute(sqlInsert, [titulo, genero, imagen, precio]);
+    
+        console.log(resultado);
+    
+        res.status(201).json({
+            mensaje: `Producto creado: ${resultado}`
+        })
+    } catch (error) {
+        console.error("Error al crear un producto:", error.message);
+        res.status(500).json({
+            mensaje: "Error interno del servidor."
+        });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Corriendo en: http://localhost:${PORT}`);
 });
