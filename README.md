@@ -19,3 +19,6 @@ Sistema de gestión de productos estilo autservicio (compras directas y rápidas
   - MySQL2
   - cors
   - session_express
+  - dotenv
+  - nodemon
+  - EJS
