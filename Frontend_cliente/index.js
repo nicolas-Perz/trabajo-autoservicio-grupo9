@@ -39,7 +39,7 @@ app.use("/auth", authRoutes);      // Login (opcional)
 
 // Ruta raíz (opcional)
 app.get("/", (req, res) => {
-    res.send("Servidor funcionando: dirigase a api/libros");
+    res.send("Servidor funcionando: dirigase a /productos");
 });
 
 // Iniciar servidor
