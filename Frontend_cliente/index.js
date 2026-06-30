@@ -1,80 +1,48 @@
 import express from "express";
-import connection from "./src/api/database/ddbb.js";
+import cors from "cors";
+import session from "express-session";
+import dotenv from "dotenv";
+import { join, __dirname } from "./src/api/utils/index.js";
+import { viewRoutes, productRoutes, authRoutes } from "./src/api/routes/index.js";
 import environments from "./src/api/config/environments.js";
+
+dotenv.config();
+const { port, session_key } = environments;
+const PORT = port || 3001;
 
 const app = express();
 
+// Middlewares
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Sesión (para login)
+app.use(session({
+    secret: session_key || "mi-secreto",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // cambiar a true en producción con HTTPS
+}));
+
+// Archivos estáticos
+app.use(express.static(join(__dirname, 'src/public')));
+
+// Configurar motor de vistas EJS (apuntando a src/views)
+app.set('views', join(__dirname, 'src/views'));
+app.set('view engine', 'ejs');
+
+// Montar routers
+app.use("/", viewRoutes);          // Vistas: /productos, etc.
+app.use("/api", productRoutes);    // API: /api/libros, etc.
+app.use("/auth", authRoutes);      // Login (opcional)
+
+// Ruta raíz (opcional)
 app.get("/", (req, res) => {
-    res.send("!Hola mundo desde LocalHost!");
+    res.send("Servidor funcionando: dirigase a api/libros");
 });
 
-app.listen(3000, () => {
-    console.log(`Servidor corriendo en el puerto 3000`);
-});
-
-// Endpoint para obtener todos los libros.
-app.get("/api/libros", async (req, res) => {
-    try {
-        const [rows] = await connection.query("SELECT * FROM libros");
-
-        res.status(200).json({
-            payload: rows
-        });
-
-    } catch (error) {
-        console.error("Error al obtener libros:", error.message);
-    }
-});
-
-// Endpoint para obtener todos los libros activos.
-app.get("/api/libros/activo", async (req, res) => {
-    try {
-        const [rows] = await connection.query("SELECT * FROM libros WHERE libros.activo = 1");
-
-        res.status(200).json({
-            payload: rows
-        });
-
-    } catch (error) {
-        console.error("Error al obtener libros activos:", error.message);
-    }
-});
-
-// Endpoint para obtener todos los libros por ID.
-app.get("/api/libros/:id", async (req, res) => {
-    const id = req.params.id;
-
-    const [ rows ] = await connection.query("SELECT * FROM libros WHERE libros.id = ?", [id]);
-    
-    res.status(200).json({
-        payload: rows
-    });
-});
-
-// Endpoint para crear un nuevo libro.
-app.post("/api/libros", async (req, res) => {
-    let { titulo, genero, imagen, precio } = req.body;
-
-    if (!nombre || !precio) {
-        return res.status(400).json({
-            mensaje: "Nombre y precio faltantes."
-        })
-    }
-
-    try {
-        const sqlInsert = "INSERT INTO libros (titulo, genero, imagen, precio) VALUES (?, ?, ?, ?)";
-    
-        const [resultado] = await connection.execute(sqlInsert, [titulo, genero, imagen, precio]);
-    
-        console.log(resultado);
-    
-        res.status(201).json({
-            mensaje: `Producto creado: ${resultado}`
-        })
-    } catch (error) {
-        console.error("Error al crear un producto:", error.message);
-        res.status(500).json({
-            mensaje: "Error interno del servidor."
-        });
-    }
+// Iniciar servidor
+app.listen(PORT, () => {
+    console.log(`⚙ Servidor corriendo en http://localhost:${PORT}`);
 });
