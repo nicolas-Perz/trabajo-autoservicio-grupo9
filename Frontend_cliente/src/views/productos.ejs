@@ -1,0 +1,48 @@
+<%- include('partials/head', { titulo, empresa }) %>
+    <%- include('partials/header', { empresa, pagina, mostrarNav }) %>
+
+        <main>
+            <h2>
+                <%= presentacion %>
+            </h2>
+
+            <div>
+                <button class="categoria-btn active" data-categoria="Todos">Todos</button>
+                <button class="categoria-btn" data-categoria="Ciencia ficción">Ciencia ficción</button>
+                <button class="categoria-btn" data-categoria="Fantasía">Fantasía</button>
+            </div>
+
+            <div>
+                <label>Ordenar por:</label>
+                <select id="orden-selector">
+                    <option value="nombre-asc">Nombre (A-Z)</option>
+                    <option value="nombre-desc">Nombre (Z-A)</option>
+                    <option value="precio-asc">Precio (menor a mayor)</option>
+                    <option value="precio-desc">Precio (mayor a menor)</option>
+                </select>
+            </div>
+
+            <!-- Lista de libros -->
+            <div class="contenedor-producto">
+
+                <% librosArray.forEach(libro=> { %>
+                    <div class="tarjeta-libro">
+                        <img src="<%= libro.imagen %>" alt="<%= libro.titulo %>">
+                        <h3>
+                            <%= libro.titulo %>
+                        </h3>
+                        <p>Género: <%= libro.genero %>
+                        </p>
+                        <p>Precio: $<%= libro.precio %>
+                        </p>
+                        <div>
+                            <button class="btn-restar" data-id="<%= libro.id %>">-</button>
+                            <span class="cantidad" id="cantidad-<%= libro.id %>">0</span>
+                            <button class="btn-sumar" data-id="<%= libro.id %>">+</button>
+                        </div>
+                    </div>
+                    <% }); %>
+            </div>
+        </main>
+
+        <%- include('partials/footer', { alumnos, mostrarBotonLogin, mostrarBotonSalir }) %>

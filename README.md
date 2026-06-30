@@ -67,7 +67,7 @@ ventas_libros (
 | Ruta | Pantalla | Descripción | Funcionalidades |
 |------|----------|-------------|----------------------|
 | `/` | Bienvenida | Pantalla inicial con mensaje de bienvenida | Formulario para ingresar nombre + botón "Continuar" |
-| `/libros` | Listado de libros | Muestra productos divididos en **dos categorías** (géneros) | • Visualización con imagen, título, género, precio<br>• Botones **+** y **−** para agregar/retirar del carrito<br>• **Paginación** para evitar sobrecarga visual |
+| `/libros` | Listado de libros | Muestra libros divididos en **dos categorías** (géneros) | • Visualización con imagen, título, género, precio<br>• Botones **+** y **−** para agregar/retirar del carrito<br>• **Paginación** para evitar sobrecarga visual |
 | `/carrito` | Carrito de compras | Resumen de libros seleccionados | • Tabla con libros, cantidades y subtotales<br>• Botones para **agregar/retirar** unidades<br>• Opción para **eliminar todos** los libros de un mismo ID |
 | `/ticket` | Ticket de compra | Confirmación final de la compra | • Muestra: libros, nombre del usuario, fecha actual y nombre de la app<br>• Botón para **descargar PDF**<br>• Botón **"Salir"** que reinicia el ciclo |
 
