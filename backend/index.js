@@ -1,11 +1,7 @@
 import express from "express"
 import connection from "./src/api/database/db.js";
-<<<<<<< HEAD
 import environments from "./src/api/config/environments.js";
 import cors from "cors";
-=======
-import cors from "cors"
->>>>>>> 839cbf3092a120c457144b050097a3c749331deb
 
 const PORT = environments.port;
 const app = express();
@@ -60,12 +56,7 @@ app.get("/api/libros/:id", async (req, res) => {
     });
 });
 
-app.post("/api/libros", async (req, res) => {
-    let {titulo,imagen,genero,precio} = req.body;
-    let sql = "INSERT INTO libros (titulo,imagen,genero,precio) VALUES (?, ?, ?, ?)";
-    await connection.query(sql,[titulo,imagen,genero,precio]);
-    res.status(200).json({message: "Producto creado con exito"});
-});
+
 
 app.listen(PORT, () => {
     console.log(`Corriendo en: http://localhost:${PORT}`);

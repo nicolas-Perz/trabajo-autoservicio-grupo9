@@ -1,0 +1,17 @@
+<header>
+    <div>
+        <h1><%= empresa %></h1>
+    </div>
+    <% if (mostrarNav) { %>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="/productos">Productos</a>
+            <a href="/carrito">Carrito</a>
+        </nav>
+    <% } %>
+    <div>
+        <% if (pagina === 'productos') { %>
+            <input type="text" id="buscador" placeholder="Buscar..." />
+        <% } %>
+    </div>
+</header>
