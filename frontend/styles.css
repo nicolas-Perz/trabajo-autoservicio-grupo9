@@ -1,0 +1,17 @@
+*{box-sizing: border-box;margin: 0;padding: 0;}
+
+.contenedor-libros{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-libro{
+    height: 10%;
+    width: 10%;
+}
+
+.card-libro img{
+    width: 100%;
+}
