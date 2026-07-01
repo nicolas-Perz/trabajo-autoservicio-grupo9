@@ -34,12 +34,33 @@ app.set('view engine', 'ejs');
 
 // Montar routers
 app.use("/", viewRoutes);          // Vistas: /productos, etc.
-app.use("/api", productRoutes);    // API: /api/libros, etc.
+app.use("/api/productos", productRoutes);    // API: /api/productos, etc.
 app.use("/auth", authRoutes);      // Login (opcional)
 
-// Ruta raíz (opcional)
+
+// Ruta raíz
 app.get("/", (req, res) => {
     res.send("Servidor funcionando: dirigase a /productos");
+});
+
+// Sirve el HTML de productos en la ruta /productos
+app.get("/productos", (req, res) => {
+    res.sendFile(join(__dirname, 'src/public/html/productos.html'));
+});
+
+// Sirve el HTML de bienvenida en la ruta /bienvenida
+app.get("/bienvenida", (req, res) => {
+    res.sendFile(join(__dirname, 'src/public/html/bienvenida.html'));
+});
+
+// Sirve el HTML de bienvenida en la ruta /carrito
+app.get("/carrito", (req, res) => {
+    res.sendFile(join(__dirname, 'src/public/html/carrito.html'));
+});
+
+// Sirve el HTML de bienvenida en la ruta /ticket
+app.get("/ticket", (req, res) => {
+    res.sendFile(join(__dirname, 'src/public/html/ticket.html'));
 });
 
 // Iniciar servidor
