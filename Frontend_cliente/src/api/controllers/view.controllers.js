@@ -21,7 +21,18 @@ export const indexView = async (req, res) => {
     } catch (error) {
         console.error("Error en indexView:", error.mensaje);
         res.status(500).json({
-            mensaje: "Error interno del servidor"}
-        );
+            mensaje: "Error interno del servidor"
+        });
+    }
+};
+
+export const carritoView = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        console.error("Error en carritoView:", error.mensaje);
+        res.status(500).json({
+            mensaje: "Error interno del servidor."
+        })
     }
 };

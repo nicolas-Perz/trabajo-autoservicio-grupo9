@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NombreApp | Carrito</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <script src="../js/index.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <h1>NombreApp</h1>
+        </div>
+        <nav>
+            <a href="/productos">Productos</a>
+            <a href="/carrito" class="active">Carrito</a>
+        </nav>
+        <div class="header-right">
+            <button id="btn-tema">🌑</button>
+        </div>
+    </header>
+
+    <main>
+        <h2 class="pg-titulo">Mi Carrito</h2>
+        <div id="contenedor-tabla">
+            <table id="tabla-carrito">
+                <tr class="fila-header-carrito">
+                    <td class="celda-header-tabla-carrito">Nombre del producto</td>
+                    <td class="celda-header-tabla-carrito">Cantidad</td>
+                    <td class="celda-header-tabla-carrito">Precio unitario</td>
+                </tr>
+            </table>
+        </div>
+        <button class="btn-limpiar-carrito">Limpiar carrito</button>
+        <h2 id="valor-final">El valor final a pagar es de: $0</h2>
+    </main>
+
+    <footer>
+        <p>Nicolás Pérez | Leandro Mamani</p>
+        <div>
+            <a href="/admin/login">Login admin</a>
+        </div>
+    </footer>
+</body>
+</html>

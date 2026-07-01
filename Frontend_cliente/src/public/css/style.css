@@ -7,7 +7,7 @@
     --text-secondary: #495057;
     --text-muted: #6c757d;
     --border-color: #dee2e6;
-    --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     --radius: 8px;
     --accent: #0d6efd;
     --accent-hover: #0b5ed7;
@@ -25,7 +25,7 @@ body.dark-mode {
     --text-secondary: #ced4da;
     --text-muted: #adb5bd;
     --border-color: #2d3748;
-    --shadow: 0 2px 8px rgba(0,0,0,0.4);
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     --accent: #4d8cf7;
     --accent-hover: #6a9dfa;
 }
@@ -162,7 +162,8 @@ footer {
     align-items: center;
 }
 
-.btn-admin, .btn-salir {
+.btn-admin,
+.btn-salir {
     padding: 0.4rem 1.2rem;
     border-radius: var(--radius);
     border: none;
@@ -200,24 +201,185 @@ footer {
         text-align: center;
         padding: 1rem;
     }
+
     .header-left {
         justify-content: center;
     }
+
     nav {
         justify-content: center;
     }
+
     .header-right {
         flex-wrap: wrap;
         justify-content: center;
     }
+
     #buscador {
         width: 100%;
     }
+
     footer {
         flex-direction: column;
         text-align: center;
     }
+
     .footer-izquierdo {
         justify-content: center;
+    }
+}
+
+/* ----- TÍTULO ----- */
+.pg-titulo {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+/* ----- CATEGORÍAS ----- */
+.categorias-container {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.categoria-btn {
+    padding: 0.5rem 1.5rem;
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.categoria-btn:hover {
+    border-color: var(--accent);
+    background-color: var(--accent);
+    color: #fff;
+}
+
+.categoria-btn.active {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+/* ----- CONTENEDOR DE LIBROS ----- */
+.contenedor-producto {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+/* ----- TARJETA DE LIBRO ----- */
+.tarjeta-libro {
+    background-color: var(--bg-card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition), box-shadow var(--transition);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+}
+
+.tarjeta-libro:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.tarjeta-libro img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tarjeta-libro h3 {
+    font-size: 1.1rem;
+    padding: 0.8rem 1rem 0.2rem;
+    color: var(--text-primary);
+}
+
+.libro-genero {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 0 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.libro-precio {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding: 0 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.libro-acciones {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+}
+
+.libro-acciones button {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.libro-acciones button:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.libro-acciones .cantidad {
+    font-size: 1.1rem;
+    font-weight: 600;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* ----- RESPONSIVE ----- */
+@media (max-width: 600px) {
+    .contenedor-producto {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .pg-titulo {
+        font-size: 1.5rem;
+    }
+
+    .seleccion-ordenamiento {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 400px) {
+    .contenedor-producto {
+        grid-template-columns: 1fr;
     }
 }

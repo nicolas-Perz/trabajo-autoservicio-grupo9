@@ -3,7 +3,7 @@ import { obtenerLibrosActivos, obtenerLibroActivoPorId } from "../controllers/bo
 
 const router = Router();
 
-router.get("/", obtenerLibrosActivos);           // GET /api/libros
-router.get("/:id", obtenerLibroActivoPorId);        // GET /api/libros/:id
+router.get("/", obtenerLibrosActivos);           // GET /api/productos
+router.get("/:id", obtenerLibroActivoPorId);     // GET /api/productos/:id
 
 export default router;
