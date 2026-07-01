@@ -1,6 +1,8 @@
 <header>
-    <div>
-        <h1><%= empresa %></h1>
+    <div class="header-derecho">
+        <h1>
+            <%= empresa %>
+        </h1>
     </div>
     <% if (mostrarNav) { %>
         <nav>
@@ -8,10 +10,13 @@
             <a href="/productos">Productos</a>
             <a href="/carrito">Carrito</a>
         </nav>
-    <% } %>
-    <div>
-        <% if (pagina === 'productos') { %>
-            <input type="text" id="buscador" placeholder="Buscar..." />
         <% } %>
-    </div>
+            <div class="header-izquierdo">
+                <% if (pagina !== 'ticket' ) { %>
+                    <button id="btn-tema">🌗</button>
+                    <% } %>
+                <% if (pagina === 'productos' ) { %>
+                    <input type="text" id="buscador" placeholder="Buscar... 🔎" />
+                    <% } %>
+            </div>
 </header>

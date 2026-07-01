@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getAllProducts, getProductById } from "../controllers/book.controllers.js";
+import { obtenerLibrosActivos, obtenerLibroActivoPorId } from "../controllers/book.controllers.js";
 
 const router = Router();
 
-router.get("/", getAllProducts);           // GET /api/libros
-router.get("/:id", getProductById);        // GET /api/libros/:id
+router.get("/", obtenerLibrosActivos);           // GET /api/libros
+router.get("/:id", obtenerLibroActivoPorId);        // GET /api/libros/:id
 
 export default router;

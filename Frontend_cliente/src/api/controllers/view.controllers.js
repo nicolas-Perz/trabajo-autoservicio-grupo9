@@ -2,7 +2,7 @@ import ProductModels from "../models/book.models.js";
 
 export const indexView = async (req, res) => {
     try {
-        const [rows] = await ProductModels.selectAllBooksActive();
+        const [rows] = await ProductModels.seleccionarLibrosActivos();
 
         // Log para verificar que llegan datos
         console.log("Libros activos enviados a la vista:", rows.length);

@@ -19,10 +19,10 @@ app.use(express.json());
 
 // Sesión (para login)
 app.use(session({
-    secret: session_key || "mi-secreto",
+    secret: session_key || "secreto",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // cambiar a true en producción con HTTPS
+    cookie: { secure: false }
 }));
 
 // Archivos estáticos
