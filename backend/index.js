@@ -73,6 +73,13 @@ app.put("/api/libros", async (req, res) => {
     return res.status(200).json({message: "Libro actualizado correctamente"});
 });
 
+app.delete("/api/libros/:id", async (req, res) => {
+    let { id } = req.params;
+
+    await connection.query("DELETE FROM libros WHERE id = ?", [id]);
+    res.status(200).json({message: `Libro con id ${id} eliminado correctamente`});
+});
+
 app.listen(PORT, () => {
     console.log(`Corriendo en: http://localhost:${PORT}`);
 });
