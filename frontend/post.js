@@ -9,6 +9,7 @@ form_post_productos.addEventListener('submit', async (e) => {
 
     data.precio = Number(data.precio)
 
+    console.table(data)
     try{
         const response = await fetch("http://localhost:3000/api/libros/",{
             method: "POST",

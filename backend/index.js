@@ -22,6 +22,8 @@ app.use((req, res, next) => {
 	next(); // Pasa al siguiente middleware
 });
 
+
+
 app.get("/", (req, res) => {
     res.send("Hola mundo!");
 });
@@ -56,7 +58,20 @@ app.get("/api/libros/:id", async (req, res) => {
     });
 });
 
+app.post("/api/libros", async (req, res) => {
+    let {titulo,imagen,genero,precio} = req.body;
+    let sql = "INSERT INTO libros (titulo,imagen,genero,precio) VALUES (?, ?, ?, ?)";
+    await connection.query(sql,[titulo,imagen,genero,precio]);
+    res.status(200).json({message: "Libro registrado con exito"});
+});
 
+app.put("/api/libros", async (req, res) => {
+    let {id,titulo,imagen,genero,precio} = req.body;
+    let sql = `UPDATE libros SET titulo = ?, imagen = ?, genero = ?, precio = ? WHERE id = ?`;
+
+    await connection.query(sql, [titulo,imagen,genero,precio,id]);
+    return res.status(200).json({message: "Libro actualizado correctamente"});
+});
 
 app.listen(PORT, () => {
     console.log(`Corriendo en: http://localhost:${PORT}`);

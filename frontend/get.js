@@ -27,7 +27,7 @@ const urlBase = "http://localhost:3000/api/libros"
 
             contenedorlibros.innerHTML = htmlLibro;
         } else {
-            alert("Error, TO DO agardar a optimizacion")
+            alert("Error, TO DO agregar optimizacion")
         }
 
     } catch(error) {
