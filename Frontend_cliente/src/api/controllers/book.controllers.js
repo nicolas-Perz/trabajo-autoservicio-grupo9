@@ -1,8 +1,8 @@
 import ProductModels from "../models/book.models.js";
 
-export const getAllProducts = async (req, res) => {
+export const obtenerLibrosActivos = async (req, res) => {
     try {
-        const [rows] = await ProductModels.selectAllBooksActive();
+        const [rows] = await ProductModels.seleccionarLibrosActivos();
         if (rows.length === 0) {
             return res.status(404).json({ 
             message: "No se encontraron productos" 
@@ -20,10 +20,10 @@ export const getAllProducts = async (req, res) => {
     }
 };
 
-export const getProductById = async (req, res) => {
+export const obtenerLibroActivoPorId = async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await ProductModels.selectBooksById(id);
+        const [rows] = await ProductModels.seleccionarLibroActivoPorId(id);
         if (rows.length === 0) {
             return res.status(404).json({ message: "Libro no encontrado" });
         }

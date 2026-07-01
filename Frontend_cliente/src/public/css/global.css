@@ -83,6 +83,7 @@ nav a {
     border-radius: var(--radius);
     transition: background-color var(--transition), color var(--transition);
     font-weight: 500;
+    font-size: 1.2rem;
 }
 
 nav a:hover {
@@ -117,8 +118,9 @@ nav a.active {
     border-radius: var(--radius);
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    width: 200px;
+    width: 300px;
     transition: border-color var(--transition);
+    font-size: 1rem;
 }
 
 #buscador:focus {
