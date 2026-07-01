@@ -1,17 +1,24 @@
 // Variables globales
-let contenedorlibros = document.querySelector(".contenedor-libros");
+const contenedorlibros = document.querySelector(".contenedor-libros");
+const urlBase = "http://localhost:3000/api/libros"
 
 async function mostrarlibros() {
     try {
-        let respuesta = await fetch("http://localhost:3000/api/libros");
-        let formato = await respuesta.json();
-        let libros = formato.payload;
+        const response = await fetch(urlBase);
+        
+        if(!response.ok){
+            const parsedResponse = await response.json();
+            throw new Error(parsedResponse.message)
+        }
+        
+        const {payload} = await response.json();
 
-        renderizarlibros(libros);
-        console.table(libros)
+        renderizarlibros(payload);
+        console.table(payload)
 
     } catch(error) {
         console.error(error);
+        mostrarMensaje(error)
     }
 }
 
@@ -30,6 +37,12 @@ function renderizarlibros(array) {
     });
     
     contenedorlibros.innerHTML = htmlLibro;
+}
+
+function mostrarMensaje(mensaje){
+    contenedorlibros.innerHTML = `
+        <p>${mensaje}</p>
+    `
 }
 
 mostrarlibros()

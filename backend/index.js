@@ -22,7 +22,22 @@ app.use((req, res, next) => {
 	next(); // Pasa al siguiente middleware
 });
 
+const validateId = (req, res, next) => {
+    const id = Number(req.params.id);
 
+    if (!Number.isInteger(id) || id <= 0) {
+        return res.status(400).json({
+            error: "El ID debe ser un entero positivo"
+        });
+    }
+    req.id = id;
+    next();
+}
+
+// Opt.1 Try Catch
+// Opt.2 Agregar codigos de estado adicionales
+// Opt.3 Mejorar consultas SQL (parametros requeridos y variable sql)
+// Opt.4 Devolver total de libros con total:rows.length
 
 app.get("/", (req, res) => {
     res.send("Hola mundo!");
@@ -30,11 +45,36 @@ app.get("/", (req, res) => {
 
 app.get("/api/libros", async (req,res) => {
     try{
-        let sql = "SELECT * FROM libros"
+        let sql = "SELECT id,titulo,imagen,precio FROM libros"
         const [rows] = await connection.query(sql)
-        res.status(200).json({payload:rows})
+
+        if(rows.length === 0){
+            res.status(404).json({message:"No se encontraron libros"})
+        }
+
+        res.status(200).json({payload:rows,total:rows.length})
     }catch(e){
         console.error(e)
+        res.status(500).json({message:"Error interno del servidor"})
+    }
+});
+
+app.get("/api/libros/:id", validateId, async (req, res) => {
+    try {
+        let sql = `SELECT id, titulo, imagen, precio, genero FROM libros where id = ?`;
+        let [rows] = await connection.query(sql, [req.id]); 
+
+        if(rows.length === 0) {
+            return res.status(404).json({
+                message: `No se encontro producto con id ${req.id}`
+            });
+        }
+
+        res.status(200).json({payload:rows});
+    } catch (error) {
+        console.error(`Error obteniendo producto con id ${req.id}`, error.message);
+        
+        res.status(500).json({message: "Error interno al obtener un producto por id"});
     }
 });
 
@@ -46,16 +86,6 @@ app.get("/api/libros/activos", async (req,res) => {
     }catch(e){
         console.error(e)
     }
-});
-
-app.get("/api/libros/:id", async (req, res) => {
-    const id = req.params.id;
-    let sql = "SELECT * FROM libros WHERE libros.id = ?"
-    const [ rows ] = await connection.query(sql,[id]);
-    
-    res.status(200).json({
-        payload: rows
-    });
 });
 
 app.post("/api/libros", async (req, res) => {
