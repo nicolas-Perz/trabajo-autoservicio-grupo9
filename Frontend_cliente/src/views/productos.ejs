@@ -1,4 +1,4 @@
-<%- include('partials/head', { titulo, empresa }) %>
+<%- include('partials/head', { titulo: "Libros", empresa: "nombre-empresa", cssPage: "libros" }) %>
     <%- include('partials/header', { empresa, pagina, mostrarNav }) %>
 
         <main>
@@ -10,6 +10,9 @@
                 <button class="categoria-btn active" data-categoria="Todos">Todos</button>
                 <button class="categoria-btn" data-categoria="Ciencia ficción">Ciencia ficción</button>
                 <button class="categoria-btn" data-categoria="Fantasía">Fantasía</button>
+                <button class="categoria-btn" data-categoria="Terror">Terror</button>
+                <button class="categoria-btn" data-categoria="Misterio">Misterio</button>
+                <button class="categoria-btn" data-categoria="Drama">Drama</button>
             </div>
 
             <div>
