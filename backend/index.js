@@ -33,6 +33,38 @@ const validateId = (req, res, next) => {
     req.id = id;
     next();
 }
+// Middleware para validar los campos de un formulario
+const generosValidos = ["Fantasia", "Ciencia Ficcion"];
+const validateLibro = (req, res, next) => {
+    const {titulo,imagen,genero,precio} = req.body;
+    const errores = [];
+
+    if (!titulo || !imagen || !genero || !precio) {
+        errores.push("Faltan campos requeridos");
+    }
+
+    if (typeof titulo !== "string" || titulo.trim().length < 2) {
+        errores.push("El titulo debe tener al menos 2 caracteres");
+    }
+
+    // El precio lo parsearemos previamente en el cliente
+    if (typeof precio !== "number" || precio <= 0) {
+        errores.push("El precio debe ser un numero mayor a 0");
+    }
+
+    // No validaremos imagen porque luego usaremos Multer
+
+    if (!generosValidos.includes(genero)) {
+        errores.push("Genero invalido");
+    }
+
+    // Detectamos si existe algun error en la lista y lo devolvemos en un 400
+    if (errores.length > 0) {
+        return res.status(400).json({message: "Datos invalidos",listaErrores: errores});
+    }
+
+    next();
+}
 
 // Opt.1 Try Catch
 // Opt.2 Agregar codigos de estado adicionales
@@ -88,27 +120,59 @@ app.get("/api/libros/activos", async (req,res) => {
     }
 });
 
-app.post("/api/libros", async (req, res) => {
-    let {titulo,imagen,genero,precio} = req.body;
-    let sql = "INSERT INTO libros (titulo,imagen,genero,precio) VALUES (?, ?, ?, ?)";
-    await connection.query(sql,[titulo,imagen,genero,precio]);
-    res.status(200).json({message: "Libro registrado con exito"});
+// POST product
+app.post("/api/libros", validateLibro, async (req, res) => {
+    try {
+        const {titulo,imagen,genero,precio} = req.body;
+        const cleanTitulo = titulo.trim();
+
+        const sql = "INSERT INTO libros (titulo,imagen,genero,precio) VALUES (?, ?, ?, ?)";
+
+        const [rows] = await connection.query(sql, [cleanTitulo, imagen, genero, precio]);
+    
+        res.status(201).json({message: `Libro registrado con exito con id ${rows.insertId}`,LibroId: rows.insertId});
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({message: "Error interno del servidor al registrar libros"})
+    }
 });
 
-app.put("/api/libros", async (req, res) => {
-    let {id,titulo,imagen,genero,precio} = req.body;
-    let sql = `UPDATE libros SET titulo = ?, imagen = ?, genero = ?, precio = ? WHERE id = ?`;
 
-    await connection.query(sql, [titulo,imagen,genero,precio,id]);
-    return res.status(200).json({message: "Libro actualizado correctamente"});
+app.put("/api/libros", validateLibro, async (req, res) => {
+    try {
+        let {id,titulo,imagen,genero,precio} = req.body;
+        let sql = `UPDATE libros SET titulo = ?, imagen = ?, genero = ?, precio = ? WHERE id = ?`;
+        
+        const [result] = await connection.query(sql, [titulo,imagen,genero,precio,id]);
+
+        if (result.changedRows === 0) {
+            return res.status(404).json({message: `No se actualizo el libro`})
+        }
+        
+        return res.status(200).json({message: "Libro actualizado correctamente"});
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({message: "Error interno del servidor al editar libro"});
+    }
 });
 
-app.delete("/api/libros/:id", async (req, res) => {
-    let { id } = req.params;
-
-    await connection.query("DELETE FROM libros WHERE id = ?", [id]);
-    res.status(200).json({message: `Libro con id ${id} eliminado correctamente`});
-});
+app.delete("/api/libros/:id", validateId, async (req, res) => {
+    try {
+        const sql = "DELETE FROM libros WHERE id = ?";
+        
+        await connection.query(sql, [req.id]);
+        
+        res.status(200).json({message: `Producto con id ${req.id} eliminado correctamente`});
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({message: "Error interno del servidor al eliminar productos"})
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`Corriendo en: http://localhost:${PORT}`);

@@ -16,17 +16,23 @@
             <a href="./delete.html">DELETE</a>
         </nav>
         <h2>Post libro</h2>
-        <form class="form-post">
+        <form id="postLibro-form">
             <input type="text" name="titulo" id="libroTitulo" placeholder="Titulo" required>
             <input type="text" name="imagen" id="libroImagen" placeholder="Imagen" required>
             <select name="genero" id="generoLibro" required>
-                <option value="ciencia_ficcion">Ciencia Ficcion</option>
-                <option value="fantasia">Fantasia</option>
+                <option value="Ciencia Ficcion">Ciencia Ficcion</option>
+                <option value="Fantasia">Fantasia</option>
             </select>
             <input type="number" name="precio" id="libroPrecio" placeholder="Precio" required>
 
             <input type="submit" value="Crear libro">
         </form>
+        <section class="seccion-libros">
+            <hr>
+            <div id="contenedor-libros">
+
+            </div>
+        </section>
     </main>
 </body>
 </html>

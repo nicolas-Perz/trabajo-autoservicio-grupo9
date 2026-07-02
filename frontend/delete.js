@@ -1,5 +1,5 @@
 
-const contenedorLibro = document.getElementById('contenedor-libros')
+const contenedorLibros = document.getElementById('contenedor-libros')
 const getLibroForm = document.getElementById('getLibro-form')
 const urlBase = "http://localhost:3000/api/libros"
 
@@ -9,7 +9,7 @@ getLibroForm.addEventListener('submit', async (event) => {
     const libroId = event.target.libroId.value.trim()
 
     if(!libroId){
-        mostrarError("Ingresá un id válido")
+        mostrarMensaje("Ingresá un id válido")
         return
     }
 
@@ -18,7 +18,7 @@ getLibroForm.addEventListener('submit', async (event) => {
         const data = await response.json()
 
         if(!response.ok){
-            mostrarError(data.message)
+            mostrarMensaje(data.message)
             return
         }
 
@@ -33,7 +33,7 @@ getLibroForm.addEventListener('submit', async (event) => {
                 </li>    
             </ul>
         `;
-        contenedorLibro.innerHTML = htmlLibro
+        contenedorLibros.innerHTML = htmlLibro
 
             const deleteLibroButton = document.getElementById('deleteLibro-button')
             
@@ -49,7 +49,7 @@ getLibroForm.addEventListener('submit', async (event) => {
             })
     }catch(e){
         console.error(e)
-        mostrarError("Error con el servidor")
+        mostrarMensaje("Error con el servidor")
     }
 })
 
@@ -63,25 +63,19 @@ async function eliminarLibro(id){
 
         // Manejamos un error no ok
         if(!response.ok){
-            mostrarError(result.message)
+            mostrarMensaje(result.message)
             return
         }
 
-        mostrarExito(result.message)
+        mostrarMensaje(result.message)
 
     }catch(e){
         console.error(e)
-        mostrarError("Error con el servidor")
+        mostrarMensaje("Error con el servidor")
     }
 }
-
-function mostrarError(errorMsg){
-    contenedorLibro.innerHTML = `
-        <p class="mensaje mensaje-error">${errorMsg}</p>
-    `;
-}
-function mostrarExito(errorMsg){
-    contenedorLibro.innerHTML = `
-        <p class="mensaje mensaje-error">${errorMsg}</p>
-    `;
+function mostrarMensaje(mensaje){
+    contenedorLibros.innerHTML = `
+        <p>${mensaje}</p>
+    `
 }

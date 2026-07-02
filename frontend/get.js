@@ -29,7 +29,7 @@ const urlBase = "http://localhost:3000/api/libros"
             mostrarMensaje(data.message)
             return
         }
-            
+
         let libro = data.payload[0];
 
             let htmlLibro = `

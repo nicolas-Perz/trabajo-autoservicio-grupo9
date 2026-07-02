@@ -1,104 +1,147 @@
 const contenedorLibros = document.getElementById('contenedor-libros')
-const getLibro_form = document.getElementById('getLibro-form')
+const getLibroForm = document.getElementById('getLibro-form')
 const contenedorForm = document.getElementById('contenedor-form')
 const urlBase = "http://localhost:3000/api/libros"
 
-getLibro_form.addEventListener("submit", async (event) => {
+function mostrarMensaje(type, message) {
+    contenedorLibros.innerHTML = `
+        <p class="mensaje mensaje-${type}">${message}</p>
+    `;
+}
+
+function mostrarListaErrores(array) {
+    let htmlErrores = "";
+    array.forEach(error => {
+        htmlErrores+= `<p class="mensaje mensaje-error">${error}</p>`
+    });
+    contenedorForm.innerHTML = htmlErrores;
+}
+
+getLibroForm.addEventListener("submit", async event => {
     event.preventDefault();
 
-    let formData = new FormData(event.target);
-    let data = Object.fromEntries(formData.entries());
-    console.table(data)
+    const libroId = event.target.libroId.value.trim();
+    console.log(libroId)
 
-    let libroId = data.libroId;
-    let response = await fetch(`${urlBase}/${libroId}"`);
+    if (!libroId) {
+        mostrarMensaje("error", "Ingresá un ID valido");
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${urlBase}/${libroId}`);
+        console.log(response);
 
-    let datos = await response.json();
-    let libro = datos.payload[0];
+        const datos = await response.json();
 
-    mostrarLibro(libro)
+            if (!response.ok) {
+            mostrarMensaje("error", datos.message);
+            return;
+        }
+        console.log(datos);
+
+        
+
+        const libro = datos.payload[0];
+
+        console.log(libro); 
+
+        renderizarLibro(libro);
+
+    } catch (error) {
+        console.error("error", "Error al obtener el libro");
+
+        mostrarMensaje("error", "Error de conexion con el servidor");
+    }
 });
 
-
-function mostrarLibro(libro) {
+function renderizarLibro(libro) {
     let htmlLibro = `
-        <li class="li-listados">
-            <img src="${libro.imagen}" alt="${libro.titulo}" class="img-listados">
+    <ul>
+        <li class="lista-libro">
+            <img src="${libro.imagen}" alt="${libro.titulo}">
             <p>Id: ${libro.id} / Nombre: ${libro.titulo} / <strong>Precio: $${libro.precio}</strong></p>
+            <input type="button" id="updateLibro-button" value="Actualizar Libro">
         </li>
-        <li>
-            <input type="button" id="updateLibro_button" value="Actualizar libro">
-        </li>
+    </ul>
     `;
 
     contenedorLibros.innerHTML = htmlLibro;
 
+    const deleteLibroButton = document.getElementById("updateLibro-button");
 
-    let updateLibro_button = document.getElementById("updateLibro_button");
+    deleteLibroButton.addEventListener("click", event => {
+        event.stopPropagation();
 
-    updateLibro_button.addEventListener("click", (event) => {
-        formularioPutLibro(event, libro);
+        const confirmacion = confirm("Querés actualizar este libro?");
+        console.log(confirmacion);
+
+        if(!confirmacion) {
+            alert("Eliminacion cancelada");
+        } else {
+            crearFormularioPut(event, libro);
+        }
     });
 }
 
 
-function formularioPutLibro(event, libro) {
+async function crearFormularioPut(event, libro) {
+
     event.stopPropagation();
-    console.log(libro);
+    console.table(libro);
 
-    let updateLibro = `
-        <div id="updateLibros-container" class="crudForm-container">
+    let updateFormHTML = `
+        <hr>
+        <form id="updateLibro-form" class="form-alta">
+            <input type="hidden" name="id" value="${libro.id}">
 
-            <h2>Actualizar libro</h2>
+            <label for="libroTitulo">Nombre</label>
+            <input type="text" name="titulo" id="libroTitulo" value="${libro.titulo}" required>
 
-            <form id="updateLibros-form">
+            <label for="libroImagen">Imagen</label>
+            <input type="text" name="imagen" id="libroImagen" value="${libro.imagen}" required>
 
-                <label for="libroId">Id</label>
-                <input type="number" name="id" id="libroId" value="${libro.id}" readonly>
+            <label for="libroGenero">Categoria</label>
+            <select name="genero" id="libroGenero" required>
+                <option value="Fantasia">Fantasia</option>
+                <option value="Ciencia Ficcion">Ciencia Ficcion</option>
+            </select>
 
+            <label for="libroPrecio">Precio</label>
+            <input type="number" name="precio" id="libroPrecio" value="${libro.precio}" required>
 
-                <label for="libroGenero">Genero</label>
-                <select name="genero" id="libroGenero" required>
-                    <option value="Ciencia Ficcion">Ciencia Ficcion</option>
-                    <option value="Fantasia">Fantasia</option>
-                </select>
-
-
-                <label for="libroImagen">Imagen</label>
-                <input type="text" name="imagen" id="libroImagen" value="${libro.imagen}" required>
-
-
-                <label for="libroTitulo">Nombre</label>
-                <input type="text" name="titulo" id="libroTitulo" value="${libro.titulo}" required>
-
-
-                <label for="libroPrecio">Precio</label>
-                <input type="number" name="precio" id="libroPrecio" value="${libro.precio}"  required>
-
+            <label for="libroActivo">Activo</label>
+            <select name="active" id="libroActivo">
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+            </select>
+            
+            <div>
                 <input type="submit" value="Actualizar libro">
-            </form>
-        </div>
+            </div>
+        </form>
     `;
 
-    contenedorForm.innerHTML = updateLibro;
+    contenedorForm.innerHTML = updateFormHTML;
 
-    let updateLibros_form = document.getElementById("updateLibros-form");
-    updateLibros_form.addEventListener("submit", (event) => {
+    const updateLibroForm = document.getElementById("updateLibro-form");
+
+    updateLibroForm.addEventListener("submit", event => {
         actualizarLibro(event);
     });
 }
 
-
-// Enviamos los datos del formulario al servidor
 async function actualizarLibro(event) {
     event.preventDefault();
 
-    let formData = new FormData(event.target);
+    const formData = new FormData(event.target); 
 
-    let data = Object.fromEntries(formData.entries());
+    const data = Object.fromEntries(formData.entries()); 
+
+        data.precio = Number(data.precio);
 
     try {
-        let response = await fetch(`${urlBase}`, {
+        const response = await fetch(urlBase,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -106,23 +149,36 @@ async function actualizarLibro(event) {
             body: JSON.stringify(data)
         });
 
-        if(response.ok) {
-            console.log(response);
-            let result = await response.json();
+        console.log(response);
 
-            console.log(result.message);
-            alert(result.message);
+        const result = await response.json();
+        console.log(result);
 
-            contenedorLibros.innerHTML = "";
+        // Optimizacion : Manejamos una respuesta no ok del servidor
+        if (!response.ok) {
+            
+            console.log(`Lista de errores: \n ${result.listaErrores.length}`);
             contenedorForm.innerHTML = "";
+            if (result.listaErrores) {
+                mostrarListaErrores(result.listaErrores);
+            }
+            mostrarMensaje("error", result.message);
+            console.log(result);
 
-        } else {
-            let error = await response.json();
-            console.error("Error: ", error.message);
+            result.listaErrores.forEach(error => {
+                console.log(error);
+            })
+            console.log(result.listaErrores)
+            return;
+
         }
 
+        getLibroForm.innerHTML = "";
+        contenedorForm.innerHTML = "";
+        mostrarMensaje("exito", result.message);
+        console.log(result.message);
+
     } catch (error) {
-        console.error("Error al enviar los datos: ", error.message);
-        alert("Error al procesar la solicitud");
+        console.error(error);
     }
 }
