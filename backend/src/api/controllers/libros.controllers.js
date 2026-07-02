@@ -1,6 +1,11 @@
 
 // CONTROLADORES DE LIBROS
 
+// Opt.1 Try Catch
+// Opt.2 Agregar codigos de estado adicionales
+// Opt.3 Mejorar consultas SQL (parametros requeridos y variable sql)
+// Opt.4 Devolver total de libros con total:rows.length
+
 import { deleteLibro, insertLibro, selectAllLibros, selectInactiveLibros, selectLibroById, updateLibro } from "../models/libros.models.js"
 
 export const getAllLibros = async (req,res) => {
