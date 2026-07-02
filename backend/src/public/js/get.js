@@ -30,7 +30,7 @@ const urlBase = "http://localhost:3000/api/libros"
             return
         }
 
-        let libro = data.payload[0];
+        let libro = data.payload;
 
             let htmlLibro = `
                 <ul>

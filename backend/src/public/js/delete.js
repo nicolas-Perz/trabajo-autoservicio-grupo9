@@ -22,7 +22,7 @@ getLibroForm.addEventListener('submit', async (event) => {
             return
         }
 
-        const libro = data.payload[0]
+        const libro = data.payload
 
         const htmlLibro = `
             <ul>

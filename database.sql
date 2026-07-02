@@ -4,8 +4,8 @@ USE autoservicio;
 
 CREATE TABLE libros (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(50) NOT NULL,
-    genero ENUM('Ciencia Ficcion', 'Fantasia') NOT NULL,
+    titulo VARCHAR(100) NOT NULL,
+    genero ENUM('Ciencia Ficcion', 'Fantasia',"Terror","Misterio","Drama") NOT NULL,
     imagen VARCHAR(255) NOT NULL,
     precio DECIMAL(10,2) NOT NULL,
     activo BOOLEAN DEFAULT TRUE

@@ -18,7 +18,7 @@ export const indexView = async (req,res) => {
 
 export const indexInactiveView = async (req,res) => {
     try{
-        const [rows] = await selectInactiveLibros()
+        const rows = await selectInactiveLibros()
 
         res.render("inactivos",{
         title: "Inactivos",
