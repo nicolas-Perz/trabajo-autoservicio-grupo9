@@ -77,7 +77,23 @@ app.get("/", (req, res) => {
 
 app.get("/api/libros", async (req,res) => {
     try{
-        let sql = "SELECT id,titulo,imagen,precio FROM libros"
+        let sql = "SELECT id,titulo,imagen,precio,activo FROM libros"
+        const [rows] = await connection.query(sql)
+
+        if(rows.length === 0){
+            res.status(404).json({message:"No se encontraron libros"})
+        }
+
+        res.status(200).json({payload:rows,total:rows.length})
+    }catch(e){
+        console.error(e)
+        res.status(500).json({message:"Error interno del servidor"})
+    }
+});
+
+app.get("/api/libros/activos", async (req,res) => {
+    try{
+        let sql = "SELECT id,titulo,imagen,precio,activo FROM libros WHERE libros.activo = FALSE"
         const [rows] = await connection.query(sql)
 
         if(rows.length === 0){
@@ -93,7 +109,7 @@ app.get("/api/libros", async (req,res) => {
 
 app.get("/api/libros/:id", validateId, async (req, res) => {
     try {
-        let sql = `SELECT id, titulo, imagen, precio, genero FROM libros where id = ?`;
+        let sql = `SELECT id, titulo, imagen, precio, genero, activo FROM libros where id = ?`;
         let [rows] = await connection.query(sql, [req.id]); 
 
         if(rows.length === 0) {
@@ -110,17 +126,6 @@ app.get("/api/libros/:id", validateId, async (req, res) => {
     }
 });
 
-app.get("/api/libros/activos", async (req,res) => {
-    try{
-        let sql = "SELECT * FROM libros WHERE libros.activo = FALSE"
-        const [rows] = await connection.query(sql)
-        res.status(200).json({payload:rows})
-    }catch(e){
-        console.error(e)
-    }
-});
-
-// POST product
 app.post("/api/libros", validateLibro, async (req, res) => {
     try {
         const {titulo,imagen,genero,precio} = req.body;
@@ -142,10 +147,10 @@ app.post("/api/libros", validateLibro, async (req, res) => {
 
 app.put("/api/libros", validateLibro, async (req, res) => {
     try {
-        let {id,titulo,imagen,genero,precio} = req.body;
-        let sql = `UPDATE libros SET titulo = ?, imagen = ?, genero = ?, precio = ? WHERE id = ?`;
+        let {id,titulo,imagen,genero,precio,activo} = req.body;
+        let sql = `UPDATE libros SET titulo = ?, imagen = ?, genero = ?, precio = ?, activo = ? WHERE id = ?`;
         
-        const [result] = await connection.query(sql, [titulo,imagen,genero,precio,id]);
+        const [result] = await connection.query(sql, [titulo,imagen,genero,precio,activo,id]);
 
         if (result.changedRows === 0) {
             return res.status(404).json({message: `No se actualizo el libro`})

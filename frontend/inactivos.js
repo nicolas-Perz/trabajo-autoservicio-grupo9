@@ -1,6 +1,6 @@
 // Variables globales
 const contenedorlibros = document.querySelector(".contenedor-libros");
-const urlBase = "http://localhost:3000/api/libros"
+const urlBase = "http://localhost:3000/api/libros/activos"
 
 async function mostrarlibros() {
     try {
