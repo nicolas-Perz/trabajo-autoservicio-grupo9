@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="./delete.js" defer></script>
-</head>
-<body>
-    <nav>
-        <a href="./index.html">INDEX</a>
-        <a href="./post.html">POST</a>
-        <a href="./get.html">GET</a>
-        <a href="./put.html">PUT</a>
-        <a href="./delete.html">DELETE</a>
-    </nav>
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+
     <section class="form-libros">
             <h2>Eliminar libro</h2>
             <form id="getLibro-form">
@@ -28,5 +15,6 @@
             <div id="contenedor-libros"></div>
             
     </section>
-</body>
-</html>
+
+<script src="/js/delete.js"></script>
+<%- include("partials/footer.ejs") %>
