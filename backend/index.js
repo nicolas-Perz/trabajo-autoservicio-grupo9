@@ -5,6 +5,7 @@ import { loggerURL } from "./src/api/middlewares/middlewares.js";
 import { authRoutes, libroRoutes, viewsRoutes } from "./src/api/routes/index.js";
 import { join,__dirname } from "./src/api/utils/index.js";
 import session from "express-session";
+import { connectDatabase } from "./src/api/database/sequelize.js";
 
 const app = express();
 
@@ -45,6 +46,8 @@ app.use("/api/libros", libroRoutes)
 app.use("/dashboard",viewsRoutes)
 
 app.use("/login", authRoutes)
+
+await connectDatabase()
 
 app.listen(PORT, () => {
     console.log(`Corriendo en: http://localhost:${PORT}`);

@@ -19,7 +19,7 @@ export const validateId = (req, res, next) => {
     next();
 }
 // Middleware para validar los campos de un formulario
-const generosValidos = ["Fantasia", "Ciencia Ficcion"];
+const generosValidos = ["Fantasia", "Ciencia Ficcion","Terror","Misterio","Drama"];
 
 export const validateLibro = (req, res, next) => {
     const {titulo,imagen,genero,precio} = req.body;

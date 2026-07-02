@@ -42,7 +42,7 @@ getLibroForm.addEventListener("submit", async event => {
 
         
 
-        const libro = datos.payload[0];
+        const libro = datos.payload;
 
         console.log(libro); 
 
