@@ -1,0 +1,19 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+
+<main>
+    <h2><%= about %></h2>
+    <div class="contenedor-libros">
+        <% librosInactivosArray.forEach(libro => { %>
+            <div class="card-libro">
+                <img src="<%=libro.imagen%>" alt="<%=libro.titulo%>">
+                <h3><%=libro.titulo%></h3>
+                <p>Id: <%=libro.id%></p>
+                <p>$ <%=libro.precio%></p>
+                <p><%=libro.activo%></p>
+            </div>
+        <% }) %>
+    </div>
+</main>
+
+<%- include("partials/footer.ejs") %>
