@@ -111,7 +111,7 @@ async function crearFormularioPut(event, libro) {
             <input type="number" name="precio" id="libroPrecio" value="${libro.precio}" required>
 
             <label for="libroActivo">Activo</label>
-            <select name="active" id="libroActivo">
+            <select name="activo" id="libroActivo">
                 <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
             </select>
@@ -138,7 +138,9 @@ async function actualizarLibro(event) {
 
     const data = Object.fromEntries(formData.entries()); 
 
-        data.precio = Number(data.precio);
+    console.table(data)
+
+    data.precio = Number(data.precio);
 
     try {
         const response = await fetch(urlBase,{
@@ -157,17 +159,17 @@ async function actualizarLibro(event) {
         // Optimizacion : Manejamos una respuesta no ok del servidor
         if (!response.ok) {
             
-            console.log(`Lista de errores: \n ${result.listaErrores.length}`);
             contenedorForm.innerHTML = "";
+
             if (result.listaErrores) {
                 mostrarListaErrores(result.listaErrores);
+                result.listaErrores.forEach(error => {
+                console.log(error);
+            })
             }
             mostrarMensaje("error", result.message);
             console.log(result);
 
-            result.listaErrores.forEach(error => {
-                console.log(error);
-            })
             console.log(result.listaErrores)
             return;
 

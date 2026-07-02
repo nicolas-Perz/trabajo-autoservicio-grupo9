@@ -37,6 +37,7 @@ const urlBase = "http://localhost:3000/api/libros"
                     <li class="li-listados">
                         <img src="${libro.imagen}" alt="${libro.titulo}" class="img-listados">
                         <p>Id: ${libro.id} / Nombre: ${libro.titulo} / <strong>Precio: $${libro.precio}</strong></p>
+                        <p>Estado: ${libro.activo}</p>
                     </li>
                 </ul>
             `;
