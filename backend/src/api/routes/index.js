@@ -3,8 +3,10 @@
 
 import libroRoutes from "./libros.routes.js"
 import viewsRoutes from "./views.routes.js"
+import authRoutes from "./auth.routes.js"
 
 export{
     libroRoutes,
-    viewsRoutes
+    viewsRoutes,
+    authRoutes
 } // -> Se exportan hacia el index.js "principal"
